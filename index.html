@@ -2,14 +2,15 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>من الجميل</title>
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -18,29 +19,31 @@
             background: #0a0a0a;
             color: white;
             height: 100vh;
+            height: 100dvh; /* Dynamic viewport height for mobile */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
             position: relative;
             width: 100%;
             height: 100vh;
+            height: 100dvh;
             overflow: hidden;
         }
 
-        /* Night Sky Background */
+        /* Optimized Night Sky Background */
         .night-sky {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(ellipse at top, #1e3c72 0%, #2a5298 50%, #0f0f23 100%),
-                linear-gradient(180deg, #0a0a0a 0%, #1a1a2e 30%, #16213e 60%, #0f3460 100%);
+            background: linear-gradient(180deg, #0a0a0a 0%, #1a1a2e 40%, #16213e 70%, #0f3460 100%);
             z-index: 1;
         }
 
-        /* Canvas for stars and animations */
+        /* Simplified canvas for mobile performance */
         #starCanvas {
             position: absolute;
             top: 0;
@@ -50,130 +53,81 @@
             z-index: 2;
         }
 
-        /* Moon with enhanced realism */
+        /* Optimized Moon */
         .moon {
             position: absolute;
-            top: 12%;
-            right: 15%;
-            width: 140px;
-            height: 140px;
+            top: 8%;
+            right: 8%;
+            width: clamp(80px, 15vw, 120px);
+            height: clamp(80px, 15vw, 120px);
             border-radius: 50%;
-            background: 
-                radial-gradient(circle at 35% 25%, #ffffff 0%, #f8f8f8 30%, #e8e8e8 60%, #d0d0d0 100%);
+            background: radial-gradient(circle at 35% 25%, #ffffff 0%, #f0f0f0 50%, #d0d0d0 100%);
             box-shadow: 
-                0 0 60px rgba(255, 255, 255, 0.4),
-                0 0 120px rgba(255, 255, 255, 0.2),
-                0 0 200px rgba(255, 255, 255, 0.1),
-                inset -15px -15px 30px rgba(0, 0, 0, 0.15),
-                inset 5px 5px 15px rgba(255, 255, 255, 0.1);
+                0 0 30px rgba(255, 255, 255, 0.3),
+                0 0 60px rgba(255, 255, 255, 0.1);
             z-index: 3;
-            animation: moonGlow 6s ease-in-out infinite alternate;
+            will-change: transform;
         }
 
-        .moon::before {
-            content: '';
-            position: absolute;
-            top: 20%;
-            left: 25%;
-            width: 15px;
-            height: 15px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.1);
-            box-shadow: 
-                25px 10px 0 -2px rgba(0, 0, 0, 0.08),
-                -10px 25px 0 -3px rgba(0, 0, 0, 0.06),
-                40px -5px 0 -1px rgba(0, 0, 0, 0.05);
+        /* Mobile-optimized moon glow */
+        @media (min-width: 768px) {
+            .moon {
+                animation: moonGlow 6s ease-in-out infinite alternate;
+            }
         }
 
         @keyframes moonGlow {
             0% { 
-                box-shadow: 
-                    0 0 60px rgba(255, 255, 255, 0.4),
-                    0 0 120px rgba(255, 255, 255, 0.2),
-                    0 0 200px rgba(255, 255, 255, 0.1),
-                    inset -15px -15px 30px rgba(0, 0, 0, 0.15);
+                box-shadow: 0 0 30px rgba(255, 255, 255, 0.3), 0 0 60px rgba(255, 255, 255, 0.1);
             }
             100% { 
-                box-shadow: 
-                    0 0 100px rgba(255, 255, 255, 0.6),
-                    0 0 180px rgba(255, 255, 255, 0.3),
-                    0 0 300px rgba(255, 255, 255, 0.15),
-                    inset -15px -15px 30px rgba(0, 0, 0, 0.15);
+                box-shadow: 0 0 50px rgba(255, 255, 255, 0.4), 0 0 100px rgba(255, 255, 255, 0.2);
             }
         }
 
-        /* Clouds */
+        /* Simplified clouds for mobile */
         .cloud {
             position: absolute;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
             border-radius: 50px;
-            opacity: 0.3;
+            opacity: 0.4;
             z-index: 2;
         }
 
-        .cloud:before,
-        .cloud:after {
-            content: '';
-            position: absolute;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50px;
-        }
-
         .cloud1 {
-            width: 100px;
-            height: 40px;
-            top: 25%;
-            left: 10%;
-            animation: cloudFloat1 20s linear infinite;
-        }
-
-        .cloud1:before {
-            width: 50px;
-            height: 50px;
-            top: -25px;
-            left: 10px;
-        }
-
-        .cloud1:after {
             width: 60px;
-            height: 20px;
-            top: -10px;
-            right: 10px;
+            height: 25px;
+            top: 20%;
+            left: 5%;
+            animation: cloudFloat1 25s linear infinite;
         }
 
         .cloud2 {
-            width: 80px;
-            height: 30px;
-            top: 40%;
-            right: 15%;
-            animation: cloudFloat2 25s linear infinite;
-        }
-
-        .cloud2:before {
-            width: 40px;
-            height: 40px;
-            top: -20px;
-            left: 15px;
-        }
-
-        .cloud2:after {
             width: 50px;
-            height: 15px;
-            top: -5px;
-            right: 15px;
+            height: 20px;
+            top: 35%;
+            right: 10%;
+            animation: cloudFloat2 30s linear infinite;
+        }
+
+        /* Disable cloud animations on mobile for performance */
+        @media (max-width: 767px) {
+            .cloud1, .cloud2 {
+                animation: none;
+            }
         }
 
         @keyframes cloudFloat1 {
-            0% { transform: translateX(-100px); }
-            100% { transform: translateX(calc(100vw + 100px)); }
+            0% { transform: translateX(-60px); }
+            100% { transform: translateX(calc(100vw + 60px)); }
         }
 
         @keyframes cloudFloat2 {
-            0% { transform: translateX(calc(100vw + 100px)); }
-            100% { transform: translateX(-100px); }
+            0% { transform: translateX(calc(100vw + 50px)); }
+            100% { transform: translateX(-50px); }
         }
 
-        /* Content Container */
+        /* Mobile-first Content Container */
         .content {
             position: absolute;
             top: 50%;
@@ -181,111 +135,114 @@
             transform: translate(-50%, -50%);
             text-align: center;
             z-index: 10;
-            width: 90%;
-            max-width: 900px;
+            width: 95%;
+            max-width: 500px;
+            padding: 20px;
         }
 
-        /* Enhanced Text Styles */
+        /* Mobile-optimized Text Styles */
         .arabic-text {
             font-family: 'Amiri', serif;
-            font-size: 3.2rem;
+            font-size: clamp(1.8rem, 6vw, 2.8rem);
             font-weight: 700;
-            margin-bottom: 1.5rem;
-            text-shadow: 
-                3px 3px 15px rgba(0, 0, 0, 0.8),
-                0 0 30px rgba(255, 255, 255, 0.1);
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
             opacity: 0;
-            animation: fadeInUp 2.5s ease-out 0.5s forwards;
+            animation: fadeInUp 2s ease-out 0.5s forwards;
             line-height: 1.4;
-            letter-spacing: 1px;
+            word-spacing: 0.1em;
         }
 
         .english-text {
             font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
+            font-size: clamp(1rem, 4vw, 1.4rem);
             font-weight: 400;
             font-style: italic;
-            margin-bottom: 3.5rem;
+            margin-bottom: 2.5rem;
             color: #e8e8e8;
-            text-shadow: 
-                2px 2px 10px rgba(0, 0, 0, 0.8),
-                0 0 20px rgba(255, 255, 255, 0.05);
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.8);
             opacity: 0;
-            animation: fadeInUp 2.5s ease-out 1s forwards;
+            animation: fadeInUp 2s ease-out 1s forwards;
             line-height: 1.5;
         }
 
-        /* Enhanced Button Styles */
+        /* Mobile-optimized Button Styles */
         .buttons-container {
             display: flex;
-            justify-content: center;
-            gap: 2.5rem;
-            flex-wrap: wrap;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
             opacity: 0;
-            animation: fadeInUp 2.5s ease-out 1.5s forwards;
+            animation: fadeInUp 2s ease-out 1.5s forwards;
         }
 
         .btn {
-            padding: 18px 45px;
+            width: 100%;
+            max-width: 280px;
+            padding: 16px 20px;
             border: 2px solid rgba(255, 255, 255, 0.4);
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.1);
             color: white;
             font-family: 'Cairo', sans-serif;
-            font-size: 1.3rem;
+            font-size: clamp(1rem, 4vw, 1.2rem);
             font-weight: 600;
-            border-radius: 60px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(15px);
-            position: relative;
-            overflow: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            touch-action: manipulation;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
         }
 
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.6s ease;
+        .btn:active {
+            transform: scale(0.98);
+            background: rgba(255, 255, 255, 0.2);
         }
 
-        .btn:hover::before {
-            left: 100%;
+        /* Desktop hover effects */
+        @media (min-width: 768px) {
+            .buttons-container {
+                flex-direction: row;
+                justify-content: center;
+                gap: 2rem;
+            }
+            
+            .btn {
+                width: auto;
+                padding: 18px 40px;
+            }
+            
+            .btn:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
+                border-color: rgba(255, 255, 255, 0.7);
+                background: rgba(255, 255, 255, 0.15);
+            }
         }
 
-        .btn:hover {
-            transform: translateY(-8px) scale(1.05);
-            box-shadow: 
-                0 15px 40px rgba(255, 255, 255, 0.25),
-                0 0 60px rgba(255, 255, 255, 0.15),
-                0 0 100px rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.8);
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        /* Back Button */
+        /* Mobile-optimized Back Button */
         .back-btn {
-            position: absolute;
-            top: 30px;
-            left: 30px;
-            padding: 12px 25px;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 12px 20px;
             border: 2px solid rgba(255, 255, 255, 0.3);
             background: rgba(255, 255, 255, 0.1);
             color: white;
             font-family: 'Cairo', sans-serif;
-            font-size: 1rem;
+            font-size: clamp(0.9rem, 3vw, 1rem);
             font-weight: 500;
-            border-radius: 50px;
+            border-radius: 25px;
             cursor: pointer;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
             z-index: 20;
             opacity: 0;
             visibility: hidden;
+            touch-action: manipulation;
         }
 
         .back-btn.show {
@@ -294,17 +251,15 @@
             animation: slideInLeft 0.5s ease-out;
         }
 
-        .back-btn:hover {
-            transform: translateX(-5px);
-            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.2);
-            border-color: rgba(255, 255, 255, 0.6);
+        .back-btn:active {
+            transform: scale(0.95);
             background: rgba(255, 255, 255, 0.2);
         }
 
         @keyframes slideInLeft {
             from {
                 opacity: 0;
-                transform: translateX(-50px);
+                transform: translateX(-30px);
             }
             to {
                 opacity: 1;
@@ -312,7 +267,7 @@
             }
         }
 
-        /* Enhanced Response Styles */
+        /* Mobile-optimized Response Styles */
         .response {
             position: absolute;
             top: 50%;
@@ -320,11 +275,12 @@
             transform: translate(-50%, -50%);
             text-align: center;
             z-index: 15;
-            width: 90%;
-            max-width: 900px;
+            width: 95%;
+            max-width: 500px;
+            padding: 20px;
             opacity: 0;
             visibility: hidden;
-            transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 1s ease;
         }
 
         .response.show {
@@ -334,71 +290,67 @@
 
         .response-arabic {
             font-family: 'Amiri', serif;
-            font-size: 3.5rem;
+            font-size: clamp(1.6rem, 6vw, 2.5rem);
             font-weight: 700;
-            margin-bottom: 2rem;
-            text-shadow: 
-                4px 4px 20px rgba(0, 0, 0, 0.9),
-                0 0 40px rgba(255, 255, 255, 0.2),
-                0 0 80px rgba(255, 255, 255, 0.1);
-            animation: textGlow 4s ease-in-out infinite alternate, breathe 6s ease-in-out infinite;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.9);
             line-height: 1.3;
-            letter-spacing: 1px;
+            word-spacing: 0.1em;
         }
 
         .response-english {
             font-family: 'Playfair Display', serif;
-            font-size: 2.2rem;
+            font-size: clamp(1.1rem, 4vw, 1.6rem);
             font-weight: 400;
             font-style: italic;
             color: #f5f5f5;
-            text-shadow: 
-                3px 3px 15px rgba(0, 0, 0, 0.9),
-                0 0 30px rgba(255, 255, 255, 0.1);
-            animation: textGlow 4s ease-in-out infinite alternate;
+            text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.9);
             line-height: 1.4;
+        }
+
+        /* Simplified animations for mobile */
+        @media (min-width: 768px) {
+            .response-arabic {
+                animation: textGlow 4s ease-in-out infinite alternate;
+            }
+            .response-english {
+                animation: textGlow 4s ease-in-out infinite alternate;
+            }
         }
 
         @keyframes textGlow {
             0% { 
-                text-shadow: 
-                    4px 4px 20px rgba(0, 0, 0, 0.9),
-                    0 0 40px rgba(255, 255, 255, 0.2);
+                text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.9);
             }
             100% { 
-                text-shadow: 
-                    4px 4px 20px rgba(0, 0, 0, 0.9),
-                    0 0 60px rgba(255, 255, 255, 0.4),
-                    0 0 120px rgba(255, 255, 255, 0.2);
+                text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.9), 0 0 30px rgba(255, 255, 255, 0.3);
             }
         }
 
-        @keyframes breathe {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-        }
-
-        /* Heart Animation */
+        /* Heart Animation - simplified for mobile */
         .heart {
             display: inline-block;
             color: #ff6b9d;
-            animation: heartBeat 2s ease-in-out infinite;
-            font-size: 1.3em;
-            filter: drop-shadow(0 0 10px rgba(255, 107, 157, 0.5));
+            font-size: 1.2em;
+            filter: drop-shadow(0 0 5px rgba(255, 107, 157, 0.5));
+        }
+
+        @media (min-width: 768px) {
+            .heart {
+                animation: heartBeat 2s ease-in-out infinite;
+            }
         }
 
         @keyframes heartBeat {
             0%, 100% { transform: scale(1); }
-            25% { transform: scale(1.1); }
-            50% { transform: scale(1.2); }
-            75% { transform: scale(1.1); }
+            50% { transform: scale(1.15); }
         }
 
-        /* Fade Animations */
+        /* Optimized Fade Animations */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(60px);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
@@ -413,92 +365,108 @@
             }
             to {
                 opacity: 0;
-                transform: scale(0.95);
+                transform: scale(0.98);
             }
         }
 
         .fade-out {
-            animation: fadeOut 1.2s ease-out forwards;
+            animation: fadeOut 1s ease-out forwards;
         }
 
-        /* Responsive Design */
-        @media (max-width: 768px) {
+        /* Mobile-specific optimizations */
+        @media (max-width: 767px) {
+            .container {
+                height: 100vh;
+                height: 100dvh;
+            }
+            
+            .content {
+                padding: 15px;
+            }
+            
             .arabic-text {
-                font-size: 2.5rem;
+                margin-bottom: 0.8rem;
             }
             
             .english-text {
-                font-size: 1.4rem;
+                margin-bottom: 2rem;
+            }
+            
+            .response {
+                padding: 15px;
             }
             
             .response-arabic {
-                font-size: 2.8rem;
+                margin-bottom: 1rem;
             }
             
-            .response-english {
-                font-size: 1.8rem;
-            }
-            
-            .btn {
-                padding: 15px 35px;
-                font-size: 1.1rem;
-            }
-            
-            .buttons-container {
-                gap: 1.5rem;
+            /* Disable complex animations on mobile */
+            * {
+                animation-duration: 0.5s !important;
             }
             
             .moon {
-                width: 100px;
-                height: 100px;
-                top: 8%;
-                right: 8%;
-            }
-
-            .back-btn {
-                top: 20px;
-                left: 20px;
-                padding: 10px 20px;
-                font-size: 0.9rem;
+                top: 5%;
+                right: 5%;
             }
         }
 
+        /* Very small screens */
         @media (max-width: 480px) {
+            .back-btn {
+                top: 15px;
+                left: 15px;
+                padding: 10px 15px;
+            }
+            
+            .buttons-container {
+                gap: 1rem;
+            }
+            
+            .btn {
+                padding: 14px 18px;
+            }
+        }
+
+        /* Landscape mobile optimization */
+        @media (max-width: 767px) and (orientation: landscape) {
+            .content {
+                top: 50%;
+                padding: 10px;
+            }
+            
             .arabic-text {
-                font-size: 2rem;
+                font-size: clamp(1.4rem, 5vw, 2rem);
+                margin-bottom: 0.5rem;
             }
             
             .english-text {
-                font-size: 1.2rem;
+                font-size: clamp(0.9rem, 3vw, 1.2rem);
+                margin-bottom: 1.5rem;
             }
             
-            .response-arabic {
-                font-size: 2.2rem;
+            .buttons-container {
+                gap: 1rem;
             }
             
-            .response-english {
-                font-size: 1.5rem;
-            }
-
-            .btn {
-                padding: 12px 30px;
-                font-size: 1rem;
+            .moon {
+                width: clamp(60px, 12vw, 80px);
+                height: clamp(60px, 12vw, 80px);
             }
         }
 
-        /* Enhanced floating particles */
-        .particle {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 4;
+        /* Performance optimizations */
+        .moon, .cloud, .btn, .back-btn {
+            will-change: transform;
         }
 
-        /* Hidden initially */
-        .hidden {
-            opacity: 0;
-            visibility: hidden;
+        /* Reduce motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>
@@ -513,8 +481,12 @@
         <!-- Moon -->
         <div class="moon"></div>
         
+        <!-- Clouds -->
+        <div class="cloud cloud1"></div>
+        <div class="cloud cloud2"></div>
+        
         <!-- Back Button -->
-        <button class="back-btn" id="backBtn">← العودة / Back</button>
+        <button class="back-btn" id="backBtn">← العودة</button>
         
         <!-- Main Content -->
         <div class="content" id="mainContent">
@@ -535,8 +507,8 @@
         
         <!-- Response for "Not Me" -->
         <div class="response" id="notMeResponse">
-            <h2 class="response-arabic" id="firstNotMeText">طبعا لست أنت.</h2>
-            <p class="response-english" id="firstNotMeTextEn">Of course not you.</p>
+            <h2 class="response-arabic">طبعا لست أنت.</h2>
+            <p class="response-english">Of course not you.</p>
         </div>
         
         <!-- Second Response for "Not Me" -->
@@ -547,132 +519,104 @@
     </div>
 
     <script>
-        // Canvas setup for stars
+        // Detect mobile device
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+        
+        // Canvas setup with mobile optimization
         const canvas = document.getElementById('starCanvas');
         const ctx = canvas.getContext('2d');
         
+        // Reduce canvas resolution on mobile for better performance
+        const pixelRatio = isMobile ? 1 : (window.devicePixelRatio || 1);
+        
         function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * pixelRatio;
+            canvas.height = rect.height * pixelRatio;
+            canvas.style.width = rect.width + 'px';
+            canvas.style.height = rect.height + 'px';
+            ctx.scale(pixelRatio, pixelRatio);
         }
         
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
         
-        // Enhanced stars array
+        // Reduced number of stars for mobile performance
         const stars = [];
-        const numStars = 300;
+        const numStars = isMobile ? 100 : 200;
         
-        // Create stars with different types
+        // Create simplified stars
         for (let i = 0; i < numStars; i++) {
             stars.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                radius: Math.random() * 3 + 0.5,
+                x: Math.random() * canvas.width / pixelRatio,
+                y: Math.random() * canvas.height / pixelRatio,
+                radius: Math.random() * (isMobile ? 1.5 : 2) + 0.5,
                 opacity: Math.random() * 0.8 + 0.2,
-                twinkleSpeed: Math.random() * 0.02 + 0.005,
-                twinklePhase: Math.random() * Math.PI * 2,
-                type: Math.random() > 0.95 ? 'bright' : 'normal'
+                twinkleSpeed: isMobile ? 0 : Math.random() * 0.01 + 0.005,
+                twinklePhase: Math.random() * Math.PI * 2
             });
         }
         
-        // Shooting stars array
+        // Simplified shooting stars for mobile
         const shootingStars = [];
         
         function createShootingStar() {
-            shootingStars.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height * 0.5,
-                length: Math.random() * 100 + 30,
-                speed: Math.random() * 12 + 6,
-                opacity: 1,
-                angle: Math.random() * Math.PI / 3 + Math.PI / 6,
-                tail: []
-            });
+            if (shootingStars.length < (isMobile ? 1 : 3)) {
+                shootingStars.push({
+                    x: Math.random() * canvas.width / pixelRatio,
+                    y: Math.random() * (canvas.height / pixelRatio) * 0.5,
+                    length: isMobile ? 30 : Math.random() * 60 + 30,
+                    speed: isMobile ? 4 : Math.random() * 8 + 4,
+                    opacity: 1,
+                    angle: Math.random() * Math.PI / 4 + Math.PI / 4
+                });
+            }
         }
         
-        // Create shooting star occasionally
-        setInterval(createShootingStar, 4000);
+        // Less frequent shooting stars on mobile
+        setInterval(createShootingStar, isMobile ? 8000 : 5000);
+        
+        let animationId;
         
         function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.clearRect(0, 0, canvas.width / pixelRatio, canvas.height / pixelRatio);
             
-            // Draw stars with enhanced effects
+            // Draw stars with simplified effects
             stars.forEach(star => {
-                star.twinklePhase += star.twinkleSpeed;
-                const twinkle = Math.sin(star.twinklePhase) * 0.4 + 0.6;
+                if (!isMobile) {
+                    star.twinklePhase += star.twinkleSpeed;
+                    star.opacity = Math.sin(star.twinklePhase) * 0.3 + 0.7;
+                }
                 
                 ctx.beginPath();
                 ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-                
-                if (star.type === 'bright') {
-                    const gradient = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.radius * 3);
-                    gradient.addColorStop(0, `rgba(255, 255, 255, ${star.opacity * twinkle})`);
-                    gradient.addColorStop(0.5, `rgba(255, 255, 255, ${star.opacity * twinkle * 0.5})`);
-                    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-                    ctx.fillStyle = gradient;
-                } else {
-                    ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity * twinkle})`;
-                }
-                
+                ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
                 ctx.fill();
-                
-                // Add cross sparkle for bright stars
-                if (star.type === 'bright' && twinkle > 0.8) {
-                    ctx.beginPath();
-                    ctx.moveTo(star.x - star.radius * 2, star.y);
-                    ctx.lineTo(star.x + star.radius * 2, star.y);
-                    ctx.moveTo(star.x, star.y - star.radius * 2);
-                    ctx.lineTo(star.x, star.y + star.radius * 2);
-                    ctx.strokeStyle = `rgba(255, 255, 255, ${star.opacity * twinkle * 0.5})`;
-                    ctx.lineWidth = 1;
-                    ctx.stroke();
-                }
             });
             
-            // Draw enhanced shooting stars
+            // Draw simplified shooting stars
             shootingStars.forEach((star, index) => {
-                // Add to tail
-                star.tail.push({ x: star.x, y: star.y, opacity: star.opacity });
-                if (star.tail.length > 10) star.tail.shift();
-                
-                // Draw tail
-                star.tail.forEach((point, i) => {
-                    const tailOpacity = point.opacity * (i / star.tail.length) * 0.5;
-                    ctx.beginPath();
-                    ctx.arc(point.x, point.y, 1, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(255, 255, 255, ${tailOpacity})`;
-                    ctx.fill();
-                });
-                
-                // Draw main shooting star
                 ctx.beginPath();
                 ctx.moveTo(star.x, star.y);
                 const endX = star.x - Math.cos(star.angle) * star.length;
                 const endY = star.y - Math.sin(star.angle) * star.length;
                 ctx.lineTo(endX, endY);
-                
-                const gradient = ctx.createLinearGradient(star.x, star.y, endX, endY);
-                gradient.addColorStop(0, `rgba(255, 255, 255, ${star.opacity})`);
-                gradient.addColorStop(0.5, `rgba(255, 255, 255, ${star.opacity * 0.5})`);
-                gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
-                
-                ctx.strokeStyle = gradient;
-                ctx.lineWidth = 3;
+                ctx.strokeStyle = `rgba(255, 255, 255, ${star.opacity})`;
+                ctx.lineWidth = isMobile ? 1 : 2;
                 ctx.stroke();
                 
-                // Update shooting star position
+                // Update position
                 star.x -= Math.cos(star.angle) * star.speed;
                 star.y -= Math.sin(star.angle) * star.speed;
-                star.opacity -= 0.008;
+                star.opacity -= isMobile ? 0.02 : 0.01;
                 
-                // Remove shooting star if it's off screen or faded
+                // Remove if off screen
                 if (star.x < -star.length || star.y < -star.length || star.opacity <= 0) {
                     shootingStars.splice(index, 1);
                 }
             });
             
-            requestAnimationFrame(animate);
+            animationId = requestAnimationFrame(animate);
         }
         
         animate();
@@ -690,20 +634,21 @@
             mainContent.classList.add('fade-out');
             setTimeout(() => {
                 mainContent.style.display = 'none';
-            }, 1200);
+            }, isMobile ? 500 : 1000);
         }
         
         function showResponse(responseElement) {
             setTimeout(() => {
                 responseElement.classList.add('show');
                 backBtn.classList.add('show');
-            }, 1400);
+            }, isMobile ? 600 : 1200);
         }
         
         function enhanceBackground() {
-            // Add more shooting stars for dramatic effect
-            for (let i = 0; i < 5; i++) {
-                setTimeout(createShootingStar, i * 300);
+            // Add fewer shooting stars on mobile
+            const count = isMobile ? 1 : 3;
+            for (let i = 0; i < count; i++) {
+                setTimeout(createShootingStar, i * (isMobile ? 1000 : 300));
             }
         }
         
@@ -717,9 +662,23 @@
             setTimeout(() => {
                 mainContent.style.display = 'block';
                 mainContent.classList.remove('fade-out');
-                mainContent.style.opacity = '1';
-            }, 500);
+            }, 300);
         }
+        
+        // Add touch feedback
+        function addTouchFeedback(element) {
+            element.addEventListener('touchstart', () => {
+                element.style.transform = 'scale(0.98)';
+            });
+            
+            element.addEventListener('touchend', () => {
+                element.style.transform = '';
+            });
+        }
+        
+        addTouchFeedback(meBtn);
+        addTouchFeedback(notMeBtn);
+        addTouchFeedback(backBtn);
         
         meBtn.addEventListener('click', () => {
             hideMainContent();
@@ -732,82 +691,89 @@
             enhanceBackground();
             showResponse(notMeResponse);
             
-            // Show second response after delay
+            // Show second response with mobile-optimized timing
             setTimeout(() => {
                 notMeResponse.classList.remove('show');
                 setTimeout(() => {
                     secondNotMeResponse.classList.add('show');
-                }, 600);
-            }, 3000);
+                }, 400);
+            }, isMobile ? 2000 : 3000);
         });
         
         backBtn.addEventListener('click', resetToMain);
         
-        // Enhanced floating particles effect
-        function createFloatingParticle() {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.width = Math.random() * 4 + 2 + 'px';
-            particle.style.height = particle.style.width;
-            particle.style.left = Math.random() * window.innerWidth + 'px';
-            particle.style.top = window.innerHeight + 'px';
-            particle.style.opacity = Math.random() * 0.6 + 0.2;
+        // Simplified particle effect for mobile
+        if (!isMobile) {
+            function createFloatingParticle() {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = '2px';
+                particle.style.height = '2px';
+                particle.style.background = 'rgba(255, 255, 255, 0.6)';
+                particle.style.borderRadius = '50%';
+                particle.style.left = Math.random() * window.innerWidth + 'px';
+                particle.style.top = window.innerHeight + 'px';
+                particle.style.pointerEvents = 'none';
+                particle.style.zIndex = '4';
+                
+                document.body.appendChild(particle);
+                
+                const duration = Math.random() * 10000 + 5000;
+                
+                particle.animate([
+                    { transform: 'translateY(0px)', opacity: 0 },
+                    { transform: `translateY(-${window.innerHeight + 100}px)`, opacity: 0.6 },
+                    { transform: `translateY(-${window.innerHeight + 200}px)`, opacity: 0 }
+                ], {
+                    duration: duration,
+                    easing: 'linear'
+                }).onfinish = () => {
+                    particle.remove();
+                };
+            }
             
-            document.body.appendChild(particle);
-            
-            const duration = Math.random() * 15000 + 8000;
-            const drift = (Math.random() - 0.5) * 200;
-            const rotation = Math.random() * 360;
-            
-            particle.animate([
-                { 
-                    transform: `translateY(0px) translateX(0px) rotate(0deg)`, 
-                    opacity: 0 
-                },
-                { 
-                    transform: `translateY(-${window.innerHeight + 200}px) translateX(${drift}px) rotate(${rotation}deg)`, 
-                    opacity: particle.style.opacity 
-                },
-                { 
-                    transform: `translateY(-${window.innerHeight + 400}px) translateX(${drift * 1.5}px) rotate(${rotation * 2}deg)`, 
-                    opacity: 0 
-                }
-            ], {
-                duration: duration,
-                easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-            }).onfinish = () => {
-                particle.remove();
-            };
+            setInterval(createFloatingParticle, 3000);
         }
         
-        // Create floating particles periodically
-        setInterval(createFloatingParticle, 1500);
-        
-        // Enhanced mouse parallax effect
-        document.addEventListener('mousemove', (e) => {
-            const mouseX = e.clientX / window.innerWidth;
-            const mouseY = e.clientY / window.innerHeight;
-            
-            const moon = document.querySelector('.moon');
-            const offsetX = (mouseX - 0.5) * 30;
-            const offsetY = (mouseY - 0.5) * 30;
-            
-            moon.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-            
-            // Parallax effect for stars
-            stars.forEach((star, index) => {
-                const depth = (index % 3 + 1) * 0.5;
-                star.x += (mouseX - 0.5) * depth;
-                star.y += (mouseY - 0.5) * depth;
+        // Simplified parallax for desktop only
+        if (!isMobile) {
+            document.addEventListener('mousemove', (e) => {
+                const mouseX = e.clientX / window.innerWidth;
+                const mouseY = e.clientY / window.innerHeight;
+                
+                const moon = document.querySelector('.moon');
+                const offsetX = (mouseX - 0.5) * 20;
+                const offsetY = (mouseY - 0.5) * 20;
+                
+                moon.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
             });
-        });
+        }
         
-        // Add keyboard navigation
+        // Keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && backBtn.classList.contains('show')) {
                 resetToMain();
             }
         });
+        
+        // Pause animations when page is not visible (battery saving)
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                cancelAnimationFrame(animationId);
+            } else {
+                animate();
+            }
+        });
+        
+        // Prevent zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', (event) => {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
     </script>
 </body>
 </html>
